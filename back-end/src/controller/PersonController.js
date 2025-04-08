@@ -8,7 +8,7 @@ class PersonController {
 
         try {
             const [result] = await pool.execute(
-                'INSERT INTO persons (name, lastname, salary) VALUES (?, ?, ?)',
+                'INSERT INTO persons (nome, lastnome, salary) VALUES (?, ?, ?)',
                 [name, lastname, salary]
             );
 
