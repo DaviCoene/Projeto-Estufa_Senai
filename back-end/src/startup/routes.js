@@ -1,8 +1,8 @@
 const express = require('express');
-const person = require('../routes/person');
+const sensor = require('../routes/sensor');
 
 
 module.exports = function (app) {
     app.use(express.json());
-    app.use('/api/person', person);
+    app.use('/api/sensor', sensor);
 }
