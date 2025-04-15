@@ -1,8 +1,8 @@
 const express = require('express');
-const sensor = require('../routes/sensor');
+const visu = require('../routes/visu');
 
 
 module.exports = function (app) {
     app.use(express.json());
-    app.use('/api/sensor', sensor);
+    app.use('/api/visu', visu);
 }

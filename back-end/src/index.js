@@ -3,7 +3,9 @@ const app = express();
 
 const cors = require('cors');
 app.use(cors({
+
     origin: '*'
+    
 }));
 
 require('./startup/routes')(app);
