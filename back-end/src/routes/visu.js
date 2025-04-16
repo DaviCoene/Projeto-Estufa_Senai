@@ -4,7 +4,7 @@ const router = express.Router();
 router
 
     .get('/', Visu_Controller.getAllPeople)
-    .get('/:id', Visu_Controller.getById)
+    .get('/latest', Visu_Controller.latestData)
     .post('/', Visu_Controller.create)
     .put('/:id', Visu_Controller.updateById)
     .delete('/:id', Visu_Controller.deleteById)

@@ -38,8 +38,24 @@ class Visu_Controller{
         try {
             const [rows] = await pool.execute('SELECT * FROM visualização WHERE id = ?', [id]);
             if (rows.length === 0)
-                return res.status(404).send({ message: "Valor não encontrado" });
+                // return res.status(404).send({ message: "Valor não encontrado" });
 
+            return res.status(200).json(rows[0]);
+        } catch (error) {
+            return res.status(500).send({ error: error.message });
+        }
+    }
+
+    static async latestData(req, res) {
+        console.log("chegou")
+        try {
+            const [rows] = await pool.execute(
+                'SELECT * FROM visualização ORDER BY data_hora DESC LIMIT 1'
+            );
+
+            if (rows.length == 0) {
+                return res.status(404).send({ message: "Nenhum dado encontrado" });
+            }
             return res.status(200).json(rows[0]);
         } catch (error) {
             return res.status(500).send({ error: error.message });
@@ -73,7 +89,7 @@ class Visu_Controller{
             const [result] = await pool.execute('DELETE FROM visualização WHERE id = ?', [id]);
 
             if (result.affectedRows === 0)
-                return res.status(404).send({ message: "Valor não encontrado" });
+                // return res.status(404).send({ message: "Valor não encontrado" });
 
             return res.status(200).send({ message: "Valor removido com sucesso" });
         } catch (error) {
