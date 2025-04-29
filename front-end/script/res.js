@@ -1,6 +1,6 @@
 async function fetchLatestSensorData() {
     try {
-        const response = await fetch(`http://localhost:8080/api/visu/latest`);
+        const response = await fetch(`http://localhost:5555/api/visu/latest`);
         if (!response.ok) {
             throw new Error(`Erro ao buscar dados: ${response.status}`);
         }
@@ -19,18 +19,18 @@ function updateSensorDisplay(data) {
 
         sensorDataElements[0].textContent = `${data.temp_inter || 0}°C`,
         sensorDataElements[1].textContent = `${data.temp_ext || 0}°C`,
-        sensorDataElements[2].textContent = `${data.umid_inter || 0}°C`,
-        sensorDataElements[3].textContent = `${data.umid_ext || 0}°C`,
-        sensorDataElements[4].textContent = `${data.nível_água || 0}°C`,
-        sensorDataElements[5].textContent = `${data.luminosidade || 0}°C`,
-        sensorDataElements[6].textContent = `${data.porta.data || 0}°C`,
-        sensorDataElements[7].textContent = `${data.ventilação_rpm || 0}°C`,
-        sensorDataElements[8].textContent = `${data.auto.data || 0}°C`,
-        sensorDataElements[9].textContent = `${data.data_hora || 0}°C`
+        sensorDataElements[2].textContent = `${data.umid_inter || 0}`,
+        sensorDataElements[3].textContent = `${data.umid_ext || 0}`,
+        sensorDataElements[4].textContent = `${data.nível_água || 0}`,
+        sensorDataElements[5].textContent = `${data.luminosidade || 0}`,
+        sensorDataElements[6].textContent = `${data.porta.data || 0}`,
+        sensorDataElements[7].textContent = `${data.ventilação_rpm || 0}`
 
     } else {
         console.error("Elementos .sensor-data não encontrados no DOM.");
     }
 }
 
+
 document.addEventListener("DOMContentLoaded", fetchLatestSensorData);
+

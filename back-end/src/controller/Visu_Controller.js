@@ -47,7 +47,6 @@ class Visu_Controller{
     }
 
     static async latestData(req, res) {
-        console.log("chegou")
         try {
             const [rows] = await pool.execute(
                 'SELECT * FROM visualização ORDER BY data_hora DESC LIMIT 1'
