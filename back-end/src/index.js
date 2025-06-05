@@ -11,7 +11,7 @@ app.use(cors({
 require('./startup/routes')(app);
 
 
-const port = 5555;
+const port = 3000;
 
 const server = app.listen(port, () => console.log(`Listening on port ${port}`));
 
