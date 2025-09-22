@@ -1,0 +1,154 @@
+
+.history-header {
+    display: flex;
+    gap: 2rem;
+    align-items: flex-start;
+    margin-bottom: 2rem;
+}
+
+.filter-controls {
+    flex-grow: 1;
+}
+
+.filter-controls h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.filter-buttons {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.filter-btn {
+    padding: 0.6rem 1.2rem;
+    border: 1px solid #ddd;
+    background-color: #fff;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.filter-btn:hover {
+    background-color: #f0f0f0;
+}
+
+.filter-btn.active {
+    background-color: #2E7D32;
+    color: #fff;
+    border-color: #2E7D32;
+}
+
+
+.chart-container {
+    flex-basis: 350px; 
+    flex-shrink: 0;
+}
+
+.chart-container h3 {
+    text-align: center;
+    font-size: 1rem;
+    margin-bottom: 1rem;
+}
+
+.chart-placeholder {
+    width: 180px;
+    height: 180px;
+    margin: 0 auto;
+    border-radius: 50%;
+    background-color: #f0f0f0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #aaa;
+    font-weight: 600;
+}
+
+.chart-legend {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    font-size: 0.85rem;
+}
+
+.legend-color {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    margin-right: 0.5rem;
+}
+
+.table-container {
+    padding: 0; 
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse; 
+}
+
+th, td {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+thead th {
+    background-color: #fafafa;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: #333;
+}
+
+tbody tr:hover {
+    background-color: #f8f8f8;
+}   
+
+
+
+/* --- CÓDIGO NOVO PARA MELHORAR A TABELA DE HISTÓRICO --- */
+
+/* Estilo para a coluna nova dos ícones */
+.td-icon {
+  width: 40px;
+  text-align: center;
+  font-size: 1.1rem;
+  padding-right: 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+/* Deixa a borda da linha da tabela com uma cor específica */
+tbody tr {
+  border-left: 5px solid transparent; /* Borda inicial invisível */
+  transition: all 0.2s ease-in-out;
+}
+
+/* Define as cores da borda e do ícone para cada tipo de evento */
+.evento--irrigacao { 
+  border-left-color: #2E7D32; 
+}
+.evento--irrigacao .td-icon {
+  color: #2E7D32;
+}
+
+.evento--alerta { 
+  border-left-color: #F59E0B; 
+}
+.evento--alerta .td-icon {
+  color: #F59E0B;
+}
+
+.evento--manual { 
+  border-left-color: #6B7280; 
+}
+.evento--manual .td-icon {
+  color: #6B7280;
+}

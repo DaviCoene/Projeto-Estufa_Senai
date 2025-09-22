@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../estilo/controle.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <title>Controle - Green Land</title>
+</head>
+<body>
+    <div class="content">
+        <div class="sidebar">
+            <div class="sidebar-top">
+                <a href="#" class="logo-container">
+                    <i class="fa-solid fa-leaf logo-icon"></i>
+                    <span class="logo-text">Green Land</span>
+                </a>
+                <nav class="main-nav">
+                    <ul>
+                        <li><a href="index.html" class="nav-link"><i class="fa-solid fa-chart-line"></i><span>Monitoramento</span></a></li>
+                        <li><a href="controle.html" class="nav-link active"><i class="fa-solid fa-sliders"></i><span>Controle</span></a></li>
+                        <li><a href="historico.html" class="nav-link"><i class="fa-solid fa-clock-rotate-left"></i><span>Histórico</span></a></li>
+                    </ul>
+                </nav>
+            </div>
+            <div class="sidebar-bottom">
+                <nav>
+                    <ul>
+                        <li><a href="#" class="nav-link"><i class="fa-solid fa-gear"></i><span>Configuração</span></a></li>
+                        <li><a href="#" class="nav-link"><i class="fa-solid fa-circle-question"></i><span>Ajuda</span></a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+
+        <main class="main-content">
+            <h1>Controle</h1>
+
+            <section class="control-section manual-mode-section">
+                <h2>Modo Manual</h2>
+                <label class="toggle-switch large">
+                    <input type="checkbox" id="toggle-modo-manual" checked>
+                    <span class="toggle-slider"></span>
+                </label>
+            </section>
+
+            <div id="manual-controls-container">
+                <section class="control-section" id="info-cards-section">
+                    <div class="info-row">
+                        <div class="card card--compact">
+                            <h3>Temperatura Externa</h3>
+                            <p class="sensor-data">93%</p>
+                        </div>
+                        <div class="card card--compact">
+                            <h3>Temperatura Interna</h3>
+                            <p class="sensor-data">12%</p>
+                        </div>
+                        <div class="card card--compact">
+                            <h3>Velocidade ventilação</h3>
+                            <p class="sensor-data" id="display-velocidade">100</p>
+                        </div>
+                        <div class="card card--compact">
+                            <h3>Porta</h3>
+                            <p class="sensor-data" id="display-porta">Fechada</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="control-section">
+                    <div class="card">
+                        <h2>Velocidade da ventilação</h2>
+                        <input type="range" min="0" max="100" value="75" class="slider-control" id="velocidade-slider">
+                    </div>
+                </section>
+
+                <div class="left-controls-wrapper">
+                    <div class="vertical-controls-group">
+                        <div class="toggle-item">
+                            <span>Quente/Frio</span>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="toggle-quente">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        <div class="toggle-item">
+                            <span>Ventilação</span>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="toggle-ventilacao"> <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        <div class="toggle-item">
+                            <span>Porta</span>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="toggle-portinha">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        <button class="irrigation-button">Irrigar</button>
+                    </div>
+                </div>
+            </div> <div class="image-stack-container">
+                <img src="../../imagens/Plantas.png" alt="Imagem de plantas" class="plantas-image">
+                <img src="../../imagens/Chuva.png" alt="Animação de chuva" class="chuva-image">
+            </div>
+
+        </main>
+    </div>
+
+    <script type="module" src="../../script/controle.js"></script>
+</body>
+</html>
