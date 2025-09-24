@@ -1,6 +1,37 @@
-document.addEventListener('DOMContentLoaded', function() {
+import { service } from "./firebaseConnect.js";
 
-    // --- PARTE 1: DEFINIÇÃO DE TODOS OS ELEMENTOS ---
+let Irri = 0;
+let Quente = 0;
+let portas = 0;
+
+// --- FUNÇÃO PARA CARREGAR DADOS DO FIREBASE ---
+const load_data = async () => {
+    try {
+        const response = await fetch(`https://greengarden-fd823-default-rtdb.firebaseio.com/.json`);
+        const data = await response.json();
+        return data;
+    } catch (err) {
+        console.error("Erro ao carregar dados:", err);
+        return {};
+    }
+};
+
+// --- FUNÇÃO PARA ENVIAR DADOS PARA O FIREBASE ---
+const set_data = async (data) => {
+    try {
+        await service.set(data.Darial);
+    } catch (err) {
+        console.error("Erro ao enviar dados:", err);
+    }
+};
+
+document.addEventListener('DOMContentLoaded', async function () {
+
+    service.user = "Darial";
+
+    // --- ELEMENTOS DA PÁGINA ---
+    const fanSlider = document.getElementById("velocidade-slider");
+    const quenti = document.getElementById('toggle-quente');
     const modoManualToggle = document.getElementById('toggle-modo-manual');
     const ventilacaoToggle = document.getElementById('toggle-ventilacao');
     const slider = document.getElementById('velocidade-slider');
@@ -14,7 +45,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const climaToggle = document.getElementById('toggle-clima');
     const climaDisplay = document.getElementById('display-clima');
 
-    // --- PARTE 2: FUNÇÕES AUXILIARES ---
+    // --- FUNÇÕES AUXILIARES ---
     function updateSliderFill() {
         if (!slider) return;
         const min = Number(slider.min) || 0;
@@ -27,31 +58,27 @@ document.addEventListener('DOMContentLoaded', function() {
     function atualizarStatusPorta() {
         if (portinhaToggle && portaDisplay) {
             portaDisplay.textContent = portinhaToggle.checked ? 'Aberta' : 'Fechada';
+            portas = portinhaToggle.checked ? 1 : 0;
         }
     }
-    
+
     function updateClimaStatus() {
         if (climaToggle && climaDisplay) {
             climaDisplay.textContent = climaToggle.checked ? 'Quente' : 'Frio';
         }
     }
 
-    // --- PARTE 3: FUNÇÃO CENTRAL DE CONTROLE (LÓGICA CORRIGIDA) ---
+    // --- FUNÇÃO CENTRAL DE CONTROLE ---
     function updateAllControlsState() {
         if (!modoManualToggle || !controlsContainer || !plantasImage || !ventilacaoToggle || !slider) return;
 
         const isManualOn = modoManualToggle.checked;
         const isVentilacaoOn = ventilacaoToggle.checked;
-        
-        // Pega todos os inputs e botões que serão controlados pelo MODO MANUAL
-        const allFormElements = controlsContainer.querySelectorAll('input, button');
-        
-        // Habilita ou desabilita todos os elementos com base no Modo Manual
-        allFormElements.forEach(elem => {
-            elem.disabled = !isManualOn;
-        });
 
-        // Aplica o efeito visual de desabilitado ao container e à imagem
+        // Habilita/desabilita elementos do container
+        const allFormElements = controlsContainer.querySelectorAll('input, button');
+        allFormElements.forEach(elem => elem.disabled = !isManualOn);
+
         if (isManualOn) {
             controlsContainer.classList.remove('disabled-controls');
             plantasImage.classList.remove('desativado');
@@ -60,16 +87,10 @@ document.addEventListener('DOMContentLoaded', function() {
             plantasImage.classList.add('desativado');
         }
 
-        // REGRA ESPECIAL E DEFINITIVA PARA O SLIDER:
-        // O slider só pode ser movido se o MODO MANUAL E a VENTILAÇÃO estiverem LIGADOS.
-        // Se UMA DAS DUAS condições for falsa, ele fica desabilitado.
-        if (!isManualOn || !isVentilacaoOn) {
-            slider.disabled = true;
-        } else {
-            slider.disabled = false;
-        }
+        // O slider só pode ser usado se manual + ventilação estiverem ativos
+        slider.disabled = !(isManualOn && isVentilacaoOn);
 
-        // Se a ventilação for desligada, zera os valores do slider, mesmo que o modo manual esteja ligado
+        // Se a ventilação estiver desligada, zera
         if (!isVentilacaoOn) {
             slider.value = 0;
             displayVelocidade.textContent = 0;
@@ -77,18 +98,16 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-
-    // --- PARTE 4: INICIALIZAÇÃO DE TODAS AS FUNCIONALIDADES ---
-
+    // --- INICIALIZAÇÃO DOS ELEMENTOS ---
     if (slider && displayVelocidade) {
         displayVelocidade.textContent = slider.value;
         updateSliderFill();
-        slider.addEventListener('input', function() {
+        slider.addEventListener('input', function () {
             displayVelocidade.textContent = slider.value;
             updateSliderFill();
         });
     }
-    
+
     if (portinhaToggle && portaDisplay) {
         atualizarStatusPorta();
         portinhaToggle.addEventListener('change', atualizarStatusPorta);
@@ -104,18 +123,32 @@ document.addEventListener('DOMContentLoaded', function() {
             }, 4000);
         });
     }
-    
+
     if (climaToggle && climaDisplay) {
         updateClimaStatus();
         climaToggle.addEventListener('change', updateClimaStatus);
     }
 
-    // Adiciona os "escutadores" para os toggles principais que usam a função central
     if (modoManualToggle && ventilacaoToggle) {
         modoManualToggle.addEventListener('change', updateAllControlsState);
         ventilacaoToggle.addEventListener('change', updateAllControlsState);
-        
-        // Roda a função uma vez no início para definir o estado correto da página
-        updateAllControlsState();
+        updateAllControlsState(); // estado inicial
     }
+
+    if (quenti) {
+        quenti.addEventListener('change', () => {
+            Quente = quenti.checked ? 1 : 0;
+        });
+    }
+
+    // --- LOOP DE SINCRONIZAÇÃO COM FIREBASE ---
+    setInterval(async () => {
+        const data = await load_data();
+        if (!data.Darial) return;
+        data.Darial.Controle.Fan = Number(fanSlider?.value || 0);
+        data.Darial.Controle.Porta = portas;
+        data.Darial.Controle.Irrigação = Irri;
+        data.Darial.Controle.Aquecedor = Quente;
+        await set_data(data);
+    }, 1000);
 });
