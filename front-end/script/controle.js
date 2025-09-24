@@ -117,7 +117,9 @@ document.addEventListener('DOMContentLoaded', async function () {
         irrigationButton.addEventListener('click', () => {
             irrigationButton.disabled = true;
             rainImage.style.opacity = '1';
+            Irri = 1
             setTimeout(() => {
+                Irri = 0
                 rainImage.style.opacity = '0';
                 irrigationButton.disabled = false;
             }, 4000);
