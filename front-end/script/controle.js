@@ -7,7 +7,7 @@ let portas = 0;
 // --- FUNÇÃO PARA CARREGAR DADOS DO FIREBASE ---
 const load_data = async () => {
     try {
-        const response = await fetch(`https://greengarden-fd823-default-rtdb.firebaseio.com/.json`);
+        const response = await fetch(`https://greengarden-fd823-default-rtdb.firebaseio.com/Marialemes.json`);
         const data = await response.json();
         return data;
     } catch (err) {
@@ -19,7 +19,7 @@ const load_data = async () => {
 // --- FUNÇÃO PARA ENVIAR DADOS PARA O FIREBASE ---
 const set_data = async (data) => {
     try {
-        await service.set(data.Darial);
+        await service.set(data.MariaLemes);
     } catch (err) {
         console.error("Erro ao enviar dados:", err);
     }
@@ -27,7 +27,7 @@ const set_data = async (data) => {
 
 document.addEventListener('DOMContentLoaded', async function () {
 
-    service.user = "Darial";
+    service.user = "MariaLemes";
 
     // --- ELEMENTOS DA PÁGINA ---
     const fanSlider = document.getElementById("velocidade-slider");
@@ -146,11 +146,13 @@ document.addEventListener('DOMContentLoaded', async function () {
     // --- LOOP DE SINCRONIZAÇÃO COM FIREBASE ---
     setInterval(async () => {
         const data = await load_data();
-        if (!data.Darial) return;
-        data.Darial.Controle.Fan = Number(fanSlider?.value || 0);
-        data.Darial.Controle.Porta = portas;
-        data.Darial.Controle.Irrigação = Irri;
-        data.Darial.Controle.Aquecedor = Quente;
+        if (!data.MariaLemes) return;
+        data.MariaLemes.Controle.Fan = Number(fanSlider?.value || 0);
+        data.MariaLemes.Controle.Porta = portas;
+        data.MariaLemes.Controle.Irrigação = Irri;
+        data.MariaLemes.Controle.Aquecedor = Quente;
         await set_data(data);
+        location.reload();
+        window.location.reload();
     }, 1000);
 });
