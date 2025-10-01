@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monitoramento - Green Land</title>
+    <link rel="stylesheet" href="estilo/styles.css">
+    <link rel="stylesheet" href="estilo/modal.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+<body>
+    <div class="content">
+        <div class="sidebar">
+            <div class="sidebar-top">
+                <a href="#" class="logo-container">
+                    <i class="fa-solid fa-leaf logo-icon"></i>
+                    <span class="logo-text">Green Land</span>
+                </a>
+                <nav class="main-nav">
+                    <ul>
+                        <li><a href="index.html" class="nav-link active"><i class="fa-solid fa-chart-line"></i><span>Monitoramento</span></a></li>
+                        <li><a href="controle.html" class="nav-link"><i class="fa-solid fa-sliders"></i><span>Controle</span></a></li>
+                        <li><a href="historico.html" class="nav-link"><i class="fa-solid fa-clock-rotate-left"></i><span>Histórico</span></a></li>
+                    </ul>
+                </nav>
+            </div>
+            <div class="sidebar-bottom">
+                <nav>
+                    <ul>
+                        <li><a href="#" id="open-config-modal" class="nav-link"><i class="fa-solid fa-gear"></i><span>Configuração</span></a></li>
+                        <li><a href="#" id="open-help-modal" class="nav-link"><i class="fa-solid fa-circle-question"></i><span>Ajuda</span></a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+
+        <main class="main-content">
+            <h1>Monitoramento</h1>
+
+            <div class="welcome-banner">
+                <h2>Seja bem-vindo ao painel da sua estufa!</h2>
+                <p>Aqui você pode acompanhar todos os dados vitais para o crescimento saudável das suas plantas.</p>
+            </div>
+
+            <div class="info-row">
+                <div class="card">
+                    <h3>Umidade Externa</h3>
+                    <p class="sensor-data">93%</p>
+                </div>
+                <div class="card">
+                    <h3>Umidade Interna</h3>
+                    <p class="sensor-data">12%</p>
+                </div>
+                <div class="card">
+                    <h3>Iluminação</h3>
+                    <p class="sensor-data">64%</p>
+                </div>
+                <div class="card">
+                    <h3>Nível da água</h3>
+                    <p class="sensor-data">1.6%</p>
+                </div>
+            </div>
+
+            <div class="monitoramento-grid">
+                <div class="monitoramento-col-esquerda">
+                    <div class="info-row">
+                        <div class="card main-chart-card">
+                            <h3>Temperatura nas Últimas Horas</h3>
+                            <canvas id="myLineChart"></canvas>
+                        </div>
+                        <div class="card temp-card">
+                            <h3>Temperatura Externa</h3>
+                            <p class="sensor-data">93%</p>
+                        </div>
+                        <div class="card temp-card">
+                            <h3>Temperatura Interna</h3>
+                            <p class="sensor-data">93%</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="monitoramento-col-direita">
+                    <img src="imagens/Tanque.png" alt="Imagem de um tanque de vidro" class="imagem-tanque">
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <div id="help-modal" class="modal-overlay">
+        <div class="modal-content">
+            <button class="modal-close">&times;</button>
+            <h2>Ajuda e Informações</h2>
+            <p>Bem-vindo ao painel de controle da sua estufa inteligente!</p>
+            <h4>Modo Manual</h4>
+            <p>Quando ativado, permite que você controle individualmente cada componente da estufa, como a ventilação e a irrigação.</p>
+            <h4>Controles</h4>
+            <ul>
+                <li><strong>Quente/Frio:</strong> Ativa o sistema de aquecimento ou refrigeração.</li>
+                <li><strong>Ventilação:</strong> Liga o sistema de ventilação. A velocidade pode ser ajustada pela barra de controle.</li>
+                <li><strong>Porta:</strong> Abre ou fecha a porta da estufa.</li>
+                <li><strong>Irrigar:</strong> Ativa o sistema de irrigação por 4 segundos.</li>
+            </ul>
+            <p>Para fechar esta janela, clique no 'X' ou em qualquer lugar fora deste painel.</p>
+        </div>
+    </div>
+    
+
+    <div id="config-modal" class="modal-overlay">
+        <div class="modal-content">
+            <button class="modal-close">&times;</button>
+            <h2>Configurações da Estufa</h2>
+           <form class="config-form">
+                <div class="form-group">
+                    <label for="temp-max">Temperatura Máxima Ideal (°C)</label>
+                    <input type="number" id="temp-max" value="28" min="20" max="50">
+                </div>
+                <div class="form-group">
+                    <label for="temp-min">Temperatura Mínima Ideal (°C)</label>
+                    <input type="number" id="temp-min" value="18" min="-10" max="20">
+                </div>
+                <div class="form-group">
+                    <label for="umid-max">Umidade Máxima Ideal (%)</label>
+                    <input type="number" id="umid-max" value="85" min="50" max="100">
+                </div>
+                <div class="form-group">
+                    <label for="umid-min">Umidade Mínima Ideal (%)</label>
+                    <input type="number" id="umid-min" value="60" min="30" max="70">
+                </div>
+                <button type="submit" class="btn-salvar">Salvar Alterações</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="script/res.js"></script>
+    <script src="script/main.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="script/charts.js"></script>
+
+</body>
+</html>

@@ -1,37 +1,6 @@
-import { service } from "./firebaseConnect.js";
+document.addEventListener('DOMContentLoaded', function() {
 
-let Irri = 0;
-let Quente = 0;
-let portas = 0;
-
-// --- FUNÇÃO PARA CARREGAR DADOS DO FIREBASE ---
-const load_data = async () => {
-    try {
-        const response = await fetch(`https://greengarden-fd823-default-rtdb.firebaseio.com/Marialemes.json`);
-        const data = await response.json();
-        return data;
-    } catch (err) {
-        console.error("Erro ao carregar dados:", err);
-        return {};
-    }
-};
-
-// --- FUNÇÃO PARA ENVIAR DADOS PARA O FIREBASE ---
-const set_data = async (data) => {
-    try {
-        await service.set(data.MariaLemes);
-    } catch (err) {
-        console.error("Erro ao enviar dados:", err);
-    }
-};
-
-document.addEventListener('DOMContentLoaded', async function () {
-
-    service.user = "MariaLemes";
-
-    // --- ELEMENTOS DA PÁGINA ---
-    const fanSlider = document.getElementById("velocidade-slider");
-    const quenti = document.getElementById('toggle-quente');
+    // --- PARTE 1: DEFINIÇÃO DE TODOS OS ELEMENTOS ---
     const modoManualToggle = document.getElementById('toggle-modo-manual');
     const ventilacaoToggle = document.getElementById('toggle-ventilacao');
     const slider = document.getElementById('velocidade-slider');
@@ -45,7 +14,9 @@ document.addEventListener('DOMContentLoaded', async function () {
     const climaToggle = document.getElementById('toggle-clima');
     const climaDisplay = document.getElementById('display-clima');
 
-    // --- FUNÇÕES AUXILIARES ---
+    // --- PARTE 2: FUNÇÕES AUXILIARES ---
+    let decreaseInterval = null; // Variável para controlar a animação de diminuir
+
     function updateSliderFill() {
         if (!slider) return;
         const min = Number(slider.min) || 0;
@@ -58,26 +29,40 @@ document.addEventListener('DOMContentLoaded', async function () {
     function atualizarStatusPorta() {
         if (portinhaToggle && portaDisplay) {
             portaDisplay.textContent = portinhaToggle.checked ? 'Aberta' : 'Fechada';
-            portas = portinhaToggle.checked ? 1 : 0;
         }
     }
-
+    
     function updateClimaStatus() {
         if (climaToggle && climaDisplay) {
             climaDisplay.textContent = climaToggle.checked ? 'Quente' : 'Frio';
         }
     }
 
-    // --- FUNÇÃO CENTRAL DE CONTROLE ---
-    function updateAllControlsState() {
-        if (!modoManualToggle || !controlsContainer || !plantasImage || !ventilacaoToggle || !slider) return;
+    function gradualDecrease() {
+        if (decreaseInterval) clearInterval(decreaseInterval);
+        decreaseInterval = setInterval(() => {
+            let currentValue = Number(slider.value);
+            if (currentValue > 0) {
+                slider.value = currentValue - 1;
+                displayVelocidade.textContent = slider.value;
+                updateSliderFill();
+            } else {
+                clearInterval(decreaseInterval);
+                decreaseInterval = null;
+            }
+        }, 20);
+    }
 
+    // --- PARTE 3: FUNÇÕES DE CONTROLE DE ESTADO ---
+    
+    // Função que REAGE às MUDANÇAS do usuário (com animação)
+    function handleControlsChange() {
+        if (!modoManualToggle || !ventilacaoToggle || !slider) return;
         const isManualOn = modoManualToggle.checked;
         const isVentilacaoOn = ventilacaoToggle.checked;
 
-        // Habilita/desabilita elementos do container
         const allFormElements = controlsContainer.querySelectorAll('input, button');
-        allFormElements.forEach(elem => elem.disabled = !isManualOn);
+        allFormElements.forEach(elem => { elem.disabled = !isManualOn; });
 
         if (isManualOn) {
             controlsContainer.classList.remove('disabled-controls');
@@ -87,72 +72,75 @@ document.addEventListener('DOMContentLoaded', async function () {
             plantasImage.classList.add('desativado');
         }
 
-        // O slider só pode ser usado se manual + ventilação estiverem ativos
-        slider.disabled = !(isManualOn && isVentilacaoOn);
-
-        // Se a ventilação estiver desligada, zera
+        if (!isManualOn || !isVentilacaoOn) {
+            slider.disabled = true;
+        } else {
+            slider.disabled = false;
+        }
+        
         if (!isVentilacaoOn) {
+            gradualDecrease();
+        } else {
+            if (decreaseInterval) {
+                clearInterval(decreaseInterval);
+                decreaseInterval = null;
+            }
+        }
+    }
+    
+    // Função que define o ESTADO INICIAL da página 
+    function setInitialState() {
+        if (!modoManualToggle || !ventilacaoToggle || !slider) return;
+        const isManualOn = modoManualToggle.checked;
+        const isVentilacaoOn = ventilacaoToggle.checked;
+
+        const allFormElements = controlsContainer.querySelectorAll('input, button');
+        allFormElements.forEach(elem => { elem.disabled = !isManualOn; });
+
+        if (isManualOn) {
+            controlsContainer.classList.remove('disabled-controls');
+            plantasImage.classList.remove('desativado');
+        } else {
+            controlsContainer.classList.add('disabled-controls');
+            plantasImage.classList.add('desativado');
+        }
+
+        if (!isManualOn || !isVentilacaoOn) {
+            slider.disabled = true;
             slider.value = 0;
             displayVelocidade.textContent = 0;
             updateSliderFill();
         }
     }
 
-    // --- INICIALIZAÇÃO DOS ELEMENTOS ---
+    // --- PARTE 4: INICIALIZAÇÃO DE TODAS AS FUNCIONALIDADES ---
     if (slider && displayVelocidade) {
-        displayVelocidade.textContent = slider.value;
-        updateSliderFill();
-        slider.addEventListener('input', function () {
+        slider.addEventListener('input', function() {
             displayVelocidade.textContent = slider.value;
             updateSliderFill();
         });
     }
-
     if (portinhaToggle && portaDisplay) {
         atualizarStatusPorta();
         portinhaToggle.addEventListener('change', atualizarStatusPorta);
     }
-
     if (irrigationButton && rainImage) {
         irrigationButton.addEventListener('click', () => {
             irrigationButton.disabled = true;
             rainImage.style.opacity = '1';
-            Irri = 1
             setTimeout(() => {
-                Irri = 0
                 rainImage.style.opacity = '0';
                 irrigationButton.disabled = false;
             }, 4000);
         });
     }
-
     if (climaToggle && climaDisplay) {
         updateClimaStatus();
         climaToggle.addEventListener('change', updateClimaStatus);
     }
-
     if (modoManualToggle && ventilacaoToggle) {
-        modoManualToggle.addEventListener('change', updateAllControlsState);
-        ventilacaoToggle.addEventListener('change', updateAllControlsState);
-        updateAllControlsState(); // estado inicial
+        setInitialState(); // Roda a função de estado inicial (sem animação)
+        modoManualToggle.addEventListener('change', handleControlsChange); // Usa a função com animação para os cliques
+        ventilacaoToggle.addEventListener('change', handleControlsChange); // Usa a função com animação para os cliques
     }
-
-    if (quenti) {
-        quenti.addEventListener('change', () => {
-            Quente = quenti.checked ? 1 : 0;
-        });
-    }
-
-    // --- LOOP DE SINCRONIZAÇÃO COM FIREBASE ---
-    setInterval(async () => {
-        const data = await load_data();
-        if (!data.MariaLemes) return;
-        data.MariaLemes.Controle.Fan = Number(fanSlider?.value || 0);
-        data.MariaLemes.Controle.Porta = portas;
-        data.MariaLemes.Controle.Irrigação = Irri;
-        data.MariaLemes.Controle.Aquecedor = Quente;
-        await set_data(data);
-        location.reload();
-        window.location.reload();
-    }, 1000);
 });

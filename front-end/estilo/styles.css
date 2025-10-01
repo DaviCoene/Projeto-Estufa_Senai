@@ -159,6 +159,61 @@ h1 {
 }
 
 .main-chart-card {
-    width: 100%;     
-    height: 30vh;
+  width: 100%;
+  height: 180px;
+}
+
+
+/* --- Tanque --- */
+
+.monitoramento-grid {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    margin-top: 1.5rem;
+}
+
+.monitoramento-col-esquerda {
+    flex: 3;
+    min-width: 60%; 
+}
+
+.monitoramento-col-direita {
+    flex: 1; 
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+    min-width: 250px;
+}
+
+.imagem-tanque {
+    max-width: 100%; 
+    height: auto; 
+    display: block; 
+    opacity: 0.8; 
+}
+
+
+.welcome-banner {
+    max-width: 100%; 
+}
+
+
+@media (max-width: 900px) {
+    .monitoramento-grid {
+        flex-direction: column; 
+    }
+
+    .monitoramento-col-esquerda,
+    .monitoramento-col-direita {
+        flex: none;
+        width: 100%; 
+        min-width: auto; 
+    }
+
+    .imagem-tanque {
+        max-width: 70%; 
+        margin: 20px auto;
+    }
 }

@@ -331,17 +331,56 @@ input:checked + .toggle-slider:before {
 
 
 .chuva-image {
-  position: absolute;
-  width: 100%;
-  height: auto;
-  top: 30%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  opacity: 0;
-  transition: opacity 0.5s ease-in-out;
-  pointer-events: none;
+    position: absolute;
+    width: 100%;
+    height: auto;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+    pointer-events: none;
 }
 
 .plantas-image.desativado {
     filter: grayscale(100%);
 }
+
+/* 
+#toggle-clima:checked + .toggle-slider {
+    background-color: #EF4444;
+    } */
+
+
+
+.slider-control:disabled {
+    background: #d8d7d7;
+}
+    
+
+.slider-control:disabled::-webkit-slider-thumb {
+  background: #B0B0B0; 
+  cursor: not-allowed; 
+}
+
+.slider-control:disabled::-moz-range-thumb {
+  background: #B0B0B0; 
+  cursor: not-allowed;
+}
+
+
+
+/* .slider-control:disabled {
+    background: #F4F1ED;
+}
+    
+
+.slider-control:disabled::-webkit-slider-thumb {
+  background: #F4F1ED; 
+  cursor: not-allowed; 
+}
+
+.slider-control:disabled::-moz-range-thumb {
+  background: #F4F1ED; 
+  cursor: not-allowed;
+} */

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="estilo/styles.css">
+    <link rel="stylesheet" href="estilo/controle.css">
+    <link rel="stylesheet" href="estilo/historico.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="estilo/modal.css"> <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <title>Histórico - Green Land</title>
+</head>
+<body>
+    <div class="content">
+        <div class="sidebar">
+            <div class="sidebar-top">
+                <a href="#" class="logo-container">
+                    <i class="fa-solid fa-leaf logo-icon"></i>
+                    <span class="logo-text">Green Land</span>
+                </a>
+                <nav class="main-nav">
+                    <ul>
+                        <li><a href="index.html" class="nav-link"><i class="fa-solid fa-chart-line"></i><span>Monitoramento</span></a></li>
+                        <li><a href="controle.html" class="nav-link"><i class="fa-solid fa-sliders"></i><span>Controle</span></a></li>
+                        <li><a href="historico.html" class="nav-link active"><i class="fa-solid fa-clock-rotate-left"></i><span>Histórico</span></a></li>
+                    </ul>
+                </nav>
+            </div>
+            <div class="sidebar-bottom">
+                <nav>
+                    <ul>
+                        <li><a href="#" id="open-config-modal" class="nav-link"><i class="fa-solid fa-gear"></i><span>Configuração</span></a></li>
+                        <li><a href="#" id="open-help-modal" class="nav-link"><i class="fa-solid fa-circle-question"></i><span>Ajuda</span></a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+
+        <main class="main-content">
+            <h1>Histórico de Eventos</h1>
+
+            <div class="history-header">
+                <div class="filter-controls">
+                    <h2>Registros</h2>
+                    <div class="filter-buttons">
+                        <button class="filter-btn active">Todos</button>
+                        <button class="filter-btn">Hoje</button>
+                        <button class="filter-btn">Semana</button>
+                        <button class="filter-btn">Mês</button>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="table-container card">
+                <table>
+                    <thead>
+                        <tr>
+                            <th class="td-icon"></th> <th>Data</th>
+                            <th>Hora</th>
+                            <th>Evento</th>
+                            <th>Detalhes</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="evento--irrigacao">
+                            <td class="td-icon"><i class="fa-solid fa-tint"></i></td>
+                            <td>07/07/2025</td>
+                            <td>14:15</td>
+                            <td>Irrigação Automática</td>
+                            <td>Sistema irrigou por 2 minutos.</td>
+                        </tr>
+                        <tr class="evento--manual">
+                            <td class="td-icon"><i class="fa-solid fa-hand-pointer"></i></td>
+                            <td>07/07/2025</td>
+                            <td>11:30</td>
+                            <td>Ação Manual</td>
+                            <td>Ventilação ligada pelo usuário.</td>
+                        </tr>
+                        <tr class="evento--alerta">
+                            <td class="td-icon"><i class="fa-solid fa-triangle-exclamation"></i></td>
+                            <td>06/07/2025</td>
+                            <td>22:00</td>
+                            <td>Alerta de Temperatura</td>
+                            <td>Temperatura interna atingiu 10°C. Aquecedor ativado.</td>
+                        </tr>
+                        <tr class="evento--irrigacao">
+                            <td class="td-icon"><i class="fa-solid fa-tint"></i></td>
+                            <td>06/07/2025</td>
+                            <td>08:00</td>
+                            <td>Irrigação Automática</td>
+                            <td>Sistema irrigou por 2 minutos.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </main>
+
+    <div id="help-modal" class="modal-overlay">
+        <div class="modal-content">
+            <button class="modal-close">&times;</button>
+            <h2>Ajuda e Informações</h2>
+            
+            <!-- <hr> <h4>Como Usar os Filtros de Período</h4> -->
+            <p>Para facilitar a sua análise, a tela de Histórico permite que você filtre os eventos</p>
+            <ul>
+                <li><strong><br>Todos </strong>- este é o modo padrão.</li>
+                <li><strong>Hoje </strong> -  mostra um resumo do dia atual.</li>
+                <li><strong>Semana </strong>- exibe os registros dos últimos 7 dias.</li>
+                <li><strong>Mês </strong>- apresenta todos os eventos que aconteceram.</li>
+            </ul>
+            <p><strong><br>Dica</strong> <br>Experimente clicar nos diferentes filtros.</p>
+        </div>
+    </div>
+
+
+    <div id="config-modal" class="modal-overlay">
+        <div class="modal-content">
+            <button class="modal-close">&times;</button>
+            <h2>Configurações da Estufa</h2>
+            <form class="config-form">
+                <div class="form-group">
+                    <label for="temp-max">Temperatura Máxima Ideal (°C)</label>
+                    <input type="number" id="temp-max" value="28" min="20" max="50">
+                </div>
+                <div class="form-group">
+                    <label for="temp-min">Temperatura Mínima Ideal (°C)</label>
+                    <input type="number" id="temp-min" value="18" min="-10" max="20">
+                </div>
+                <div class="form-group">
+                    <label for="umid-max">Umidade Máxima Ideal (%)</label>
+                    <input type="number" id="umid-max" value="85" min="50" max="100">
+                </div>
+                <div class="form-group">
+                    <label for="umid-min">Umidade Mínima Ideal (%)</label>
+                    <input type="number" id="umid-min" value="60" min="30" max="70">
+                </div>
+                <button type="submit" class="btn-salvar">Salvar Alterações</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="script/main.js"></script> </body>
+</html>

@@ -1,0 +1,124 @@
+/* --- ESTILO PARA O POP-UP (MODAL) DE AJUDA --- */
+
+.modal-overlay {
+  position: fixed; /* Fica fixo na tela */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6); /* Fundo preto semi-transparente */
+  z-index: 1000; /* Garante que fique na frente de tudo */
+
+  /* Centraliza o conteúdo do pop-up */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  /* Começa escondido */
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.modal-overlay.visible {
+  opacity: 1;
+  pointer-events: auto; /* Permite cliques quando visível */
+}
+
+.modal-content {
+  background-color: #fff;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  max-width: 600px; /* Largura máxima do pop-up */
+  width: 90%;
+  position: relative;
+
+  /* Animação de entrada */
+  transform: scale(0.9);
+  transition: transform 0.3s ease-in-out;
+}
+
+.modal-overlay.visible .modal-content {
+  transform: scale(1); /* Animação para o tamanho normal */
+}
+
+.modal-close {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  background: none;
+  border: none;
+  font-size: 2rem;
+  color: #aaa;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.modal-close:hover {
+  color: #333;
+}
+
+.modal-content h2 {
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+}
+
+.modal-content h4 {
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.modal-content ul {
+  padding-left: 20px;
+  line-height: 1.6;
+}
+
+
+
+/* --- ESTILOS ADICIONAIS PARA O FORMULÁRIO DE CONFIGURAÇÃO --- */
+
+.config-form .form-group {
+  margin-bottom: 1rem;
+}
+
+.config-form label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: #555;
+}
+
+.config-form input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+}
+
+.config-form .btn-salvar {
+  width: 100%;
+  padding: 0.8rem;
+  margin-top: 1rem;
+  border: none;
+  border-radius: 6px;
+  background-color: #2E7D32; /* Cor principal verde */
+  color: white;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.config-form .btn-salvar:hover {
+  background-color: #256528; /* Verde um pouco mais escuro */
+}
+
+
+.modal-content ul {
+  list-style-type: none; /* Remove as "bolinhas pretas" */
+  padding-left: 0;       /* Remove o espaço/recuo que fica no lugar delas */
+}
+
+

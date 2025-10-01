@@ -1,16 +1,36 @@
+async function fetchLatestSensorData() {
+    try {
+        const response = await fetch(`http://localhost:5555/api/visu/latest`);
+        if (!response.ok) {
+            throw new Error(`Erro ao buscar dados: ${response.status}`);
+        }
+        const data = await response.json();
+        console.log("chegou")
+        console.log(data)
+        updateSensorDisplay(data);
+    } catch (error) {
+        console.error("Erro ao buscar os dados mais recentes:", error);
+    }
+}
 
-const umidade = document.getElementById("umidadevalor")
-const umidadeX = document.getElementById("umidadeXvalor")
-const temperatura = document.getElementById("tempvalor")
-const temperaturaX= document.getElementById("tempXvalor")
-const LDR = document.getElementById("LDRvalor")
-const nivel = document.getElementById("nivelvalor")
+function updateSensorDisplay(data) {
+    const sensorDataElements = document.querySelectorAll(".sensor-data");
+    if (sensorDataElements.length > 0) {
 
-const response = await(await(fetch(`https://greengarden-fd823-default-rtdb.firebaseio.com/.json`))).json()
+        sensorDataElements[0].textContent = `${data.temp_inter || 0}°C`,
+        sensorDataElements[1].textContent = `${data.temp_ext || 0}°C`,
+        sensorDataElements[2].textContent = `${data.umid_inter || 0}`,
+        sensorDataElements[3].textContent = `${data.umid_ext || 0}`,
+        sensorDataElements[4].textContent = `${data.nível_água || 0}`,
+        sensorDataElements[5].textContent = `${data.luminosidade || 0}`,
+        sensorDataElements[6].textContent = `${data.porta.data || 0}`,
+        sensorDataElements[7].textContent = `${data.ventilação_rpm || 0}`
 
-umidade.innerHTML = response.MariaLemes.Monitoramento.Umidade + "%"
-umidadeX.innerHTML = response.MariaLemes.Monitoramento.umidadeX + "%"
-temperatura.innerHTML = response.MariaLemes.Monitoramento.Temperatura + "°"
-temperaturaX.innerHTML = response.MariaLemes.Monitoramento.temperaturaX + "°"
-LDR.innerHTML = response.MariaLemes.Monitoramento.Luminosidade + "%"
-nivel.innerHTML = response.MariaLemes.Monitoramento.nivel + "%"
+    } else {
+        console.error("Elementos .sensor-data não encontrados no DOM.");
+    }
+}
+
+
+document.addEventListener("DOMContentLoaded", fetchLatestSensorData);
+
